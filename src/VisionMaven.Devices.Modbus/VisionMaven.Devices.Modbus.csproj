@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Devices.Modbus</RootNamespace>
+    <AssemblyName>VisionMaven.Devices.Modbus</AssemblyName>
+    <Description>Modbus TCP 驱动。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HslCommunication" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+  </ItemGroup>
+
+</Project>

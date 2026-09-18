@@ -1,0 +1,169 @@
+<UserControl
+    x:Class="VisionMaven.Modules.Communication.Views.CommunicationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:shared="clr-namespace:VisionMaven.Modules.Shared.Views;assembly=VisionMaven.Modules.Shared"
+    Background="{StaticResource BackgroundBrush}"
+    Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <DataGrid
+            Grid.Row="0"
+            Grid.ColumnSpan="5"
+            AutoGenerateColumns="False"
+            Background="Transparent"
+            BorderThickness="0"
+            CanUserAddRows="False"
+            Foreground="{StaticResource TextPrimaryBrush}"
+            GridLinesVisibility="Horizontal"
+            HeadersVisibility="Column"
+            ItemsSource="{Binding Links}"
+            RowHeight="24"
+            SelectedItem="{Binding SelectedLink}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding DeviceId}"
+                    Header="标识" />
+                <DataGridTextColumn
+                    Width="180"
+                    Binding="{Binding Name}"
+                    Header="名称" />
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding Kind, Converter={StaticResource EnumDisplay}}"
+                    Header="类型" />
+                <DataGridTextColumn
+                    Width="140"
+                    Binding="{Binding DriverKey}"
+                    Header="驱动" />
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding StateText}"
+                    Header="状态" />
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding PointCount}"
+                    Header="点位数" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Style="{StaticResource PanelBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource PanelTitleText}" Text="地址表" />
+                <DataGrid
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CanUserAddRows="False"
+                    Foreground="{StaticResource TextPrimaryBrush}"
+                    GridLinesVisibility="Horizontal"
+                    HeadersVisibility="Column"
+                    ItemsSource="{Binding Points}"
+                    RowHeight="24"
+                    SelectedItem="{Binding SelectedPoint}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="140"
+                            Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                            Header="名称" />
+                        <DataGridTextColumn
+                            Width="110"
+                            Binding="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                            Header="地址" />
+                        <DataGridComboBoxColumn
+                            Width="100"
+                            Header="数据类型"
+                            ItemsSource="{Binding DataContext.DataTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedItemBinding="{Binding DataType}" />
+                        <DataGridComboBoxColumn
+                            Width="100"
+                            Header="方向"
+                            ItemsSource="{Binding DataContext.Directions, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            SelectedItemBinding="{Binding Direction}" />
+                        <DataGridTextColumn
+                            Width="80"
+                            Binding="{Binding Scale, UpdateSourceTrigger=PropertyChanged}"
+                            Header="缩放" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="2"
+            Style="{StaticResource PanelBorder}">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                    <Button
+                        Command="{Binding AddPointCommand}"
+                        Content="新增点位"
+                        Style="{StaticResource ActionButton}" />
+                    <Button
+                        Command="{Binding RemovePointCommand}"
+                        Content="删除点位"
+                        Style="{StaticResource ActionButton}" />
+                </StackPanel>
+                <TextBlock DockPanel.Dock="Top" Style="{StaticResource PanelTitleText}" Text="连接参数" />
+                <shared:ParameterEditorView DataContext="{Binding ConnectionEditor}" />
+            </DockPanel>
+        </Border>
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="4"
+            Style="{StaticResource PanelBorder}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource PanelTitleText}" Text="手动读写调试" />
+                <TextBlock Style="{StaticResource FieldLabelText}" Text="读取地址" />
+                <TextBox
+                    Height="24"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding ReadAddress, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Style="{StaticResource FieldLabelText}"
+                    Text="写入地址" />
+                <TextBox
+                    Height="24"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding WriteAddress, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Style="{StaticResource FieldLabelText}"
+                    Text="写入值" />
+                <TextBox
+                    Height="24"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding WriteValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Margin="0,12,0,0"
+                    Style="{StaticResource ValueText}"
+                    Text="{Binding DebugResult}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

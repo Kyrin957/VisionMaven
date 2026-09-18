@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.Modules.Shared</RootNamespace>
+    <AssemblyName>VisionMaven.Modules.Shared</AssemblyName>
+    <Description>模块公共基类与参数表单控件：仅承载界面复用，不含业务规则。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" />
+    <PackageReference Include="HandyControl" />
+    <PackageReference Include="OpenCvSharp4" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" />
+    <PackageReference Include="OpenCvSharp4.WpfExtensions" />
+    <PackageReference Include="System.Drawing.Common" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Vision\VisionMaven.Vision.csproj" />
+  </ItemGroup>
+
+</Project>

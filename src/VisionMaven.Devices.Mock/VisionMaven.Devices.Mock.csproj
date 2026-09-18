@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Devices.Mock</RootNamespace>
+    <AssemblyName>VisionMaven.Devices.Mock</AssemblyName>
+    <Description>模拟相机 / PLC / 光源控制器 / MES，用于无硬件环境下的全链路验证。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="OpenCvSharp4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Vision\VisionMaven.Vision.csproj" />
+  </ItemGroup>
+
+</Project>

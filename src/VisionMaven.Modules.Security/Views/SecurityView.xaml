@@ -1,0 +1,142 @@
+<UserControl
+    x:Class="VisionMaven.Modules.Security.Views.SecurityView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{StaticResource BackgroundBrush}"
+    Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="280" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <DataGrid
+                AutoGenerateColumns="False"
+                Background="Transparent"
+                BorderThickness="0"
+                CanUserAddRows="False"
+                Foreground="{StaticResource TextPrimaryBrush}"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="Column"
+                ItemsSource="{Binding Users}"
+                RowHeight="24"
+                SelectedItem="{Binding SelectedUser}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="140"
+                        Binding="{Binding UserName}"
+                        Header="账号" />
+                    <DataGridTextColumn
+                        Width="160"
+                        Binding="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}"
+                        Header="显示名" />
+                    <DataGridTextColumn
+                        Width="90"
+                        Binding="{Binding IsEnabled}"
+                        Header="启用" />
+                    <DataGridTextColumn
+                        Width="120"
+                        Binding="{Binding MustChangePassword}"
+                        Header="需改密码" />
+                    <DataGridTextColumn
+                        Width="160"
+                        Binding="{Binding LastLoginAt, StringFormat=MM-dd HH:mm}"
+                        Header="最近登录" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Border Grid.Row="2" Style="{StaticResource PanelBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource PanelTitleText}" Text="审计日志（近 7 天）" />
+                    <DataGrid
+                        Grid.Row="1"
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        CanUserAddRows="False"
+                        Foreground="{StaticResource TextPrimaryBrush}"
+                        GridLinesVisibility="Horizontal"
+                        HeadersVisibility="Column"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Audits}"
+                        RowHeight="22">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="140"
+                                Binding="{Binding OccurredAt, StringFormat=MM-dd HH:mm:ss}"
+                                Header="时间" />
+                            <DataGridTextColumn
+                                Width="110"
+                                Binding="{Binding UserName}"
+                                Header="用户" />
+                            <DataGridTextColumn
+                                Width="130"
+                                Binding="{Binding Action}"
+                                Header="动作" />
+                            <DataGridTextColumn
+                                Width="140"
+                                Binding="{Binding Target}"
+                                Header="对象" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Detail}"
+                                Header="详情" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Grid.Column="2" Style="{StaticResource PanelBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Style="{StaticResource PanelTitleText}" Text="角色" />
+                    <ComboBox
+                        Height="24"
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding Roles}"
+                        SelectedItem="{Binding SelectedRole}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,12,0,4"
+                    Style="{StaticResource PanelTitleText}"
+                    Text="权限矩阵" />
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Permissions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    Margin="0,2"
+                                    Content="{Binding Code}"
+                                    Foreground="{StaticResource TextPrimaryBrush}"
+                                    IsChecked="{Binding IsGranted}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

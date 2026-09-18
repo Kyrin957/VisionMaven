@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.Modules.Communication</RootNamespace>
+    <AssemblyName>VisionMaven.Modules.Communication</AssemblyName>
+    <Description>通讯管理：链路表格、连接参数、地址表与手动读写调试。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" />
+    <PackageReference Include="HandyControl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Shared\VisionMaven.Modules.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.Modules.Security</RootNamespace>
+    <AssemblyName>VisionMaven.Modules.Security</AssemblyName>
+    <Description>用户管理：用户与角色、权限矩阵、密码重置与审计日志查询。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" />
+    <PackageReference Include="HandyControl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Shared\VisionMaven.Modules.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Devices.Light.Serial</RootNamespace>
+    <AssemblyName>VisionMaven.Devices.Light.Serial</AssemblyName>
+    <Description>串口数字光源控制器驱动（RS232 / RS485）。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+  </ItemGroup>
+
+</Project>

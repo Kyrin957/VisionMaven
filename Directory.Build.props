@@ -1,0 +1,42 @@
+<Project>
+
+  <!--
+    构建产物目录隔离：bin 与 obj 统一输出到仓库根，与 src / tests 同级，
+    不进入任何工程目录，避免构建产物污染源码树。
+
+    目录布局：
+      bin/{ProjectName}/{Configuration}/{TargetFramework}/
+      obj/{ProjectName}/{Configuration}/{TargetFramework}/
+
+    为什么必须同时改 obj：
+      obj 存放 project.assets.json、中间程序集与 WPF 临时工程，
+      是体量远大于 bin 的污染源；只改 bin 达不到隔离效果。
+
+    BaseIntermediateOutputPath 必须在 Directory.Build.props 中设置，
+    它会同步决定 MSBuildProjectExtensionsPath（NuGet 资产文件位置），
+    因此 restore 与 build 会使用同一个 obj 目录。
+  -->
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <BaseOutputPath>$(RepoRoot)bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(RepoRoot)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+    <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+    <Version>1.0.0</Version>
+    <Company>VisionMaven</Company>
+    <Product>VisionMaven</Product>
+    <Copyright>Copyright © VisionMaven</Copyright>
+    <NoWarn>$(NoWarn);CS1591;NU1701</NoWarn>
+  </PropertyGroup>
+
+</Project>

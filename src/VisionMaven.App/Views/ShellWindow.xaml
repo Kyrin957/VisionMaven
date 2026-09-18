@@ -1,0 +1,450 @@
+<Window
+    x:Class="VisionMaven.App.Views.ShellWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+    Title="VisionMaven"
+    Width="1500"
+    Height="900"
+    MinWidth="1024"
+    MinHeight="640"
+    Background="{StaticResource BackgroundBrush}"
+    FontFamily="{StaticResource PrimaryFontFamily}"
+    FontSize="{StaticResource BodyFontSize}"
+    Foreground="{StaticResource TextPrimaryBrush}"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome
+            CaptionHeight="36"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="6"
+            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style x:Key="TopMenuStyle" TargetType="Menu">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        </Style>
+
+        <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Text}" />
+            <Setter Property="Command" Value="{Binding Command}" />
+            <Setter Property="InputGestureText" Value="{Binding GestureText}" />
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="{StaticResource BodyFontSize}" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="26" />
+        </Grid.RowDefinitions>
+
+        <!-- 行1 顶部标题菜单栏 -->
+        <Border
+            Grid.Row="0"
+            Background="{StaticResource ChromeBrush}"
+            BorderBrush="{StaticResource BorderBrushToken}"
+            BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="14,0,26,0"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    FontWeight="SemiBold"
+                    Text="{Binding ApplicationTitle}" />
+
+                <Menu
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TopMenuStyle}">
+                    <MenuItem
+                        Header="项目"
+                        ItemContainerStyle="{StaticResource MenuItemStyle}"
+                        ItemsSource="{Binding ProjectMenuItems}" />
+                    <MenuItem
+                        Header="视图"
+                        ItemContainerStyle="{StaticResource MenuItemStyle}"
+                        ItemsSource="{Binding ViewMenuItems}" />
+                    <MenuItem
+                        Header="工具"
+                        ItemContainerStyle="{StaticResource MenuItemStyle}"
+                        ItemsSource="{Binding ToolsMenuItems}" />
+                    <MenuItem
+                        Header="帮助"
+                        ItemContainerStyle="{StaticResource MenuItemStyle}"
+                        ItemsSource="{Binding HelpMenuItems}" />
+                </Menu>
+
+                <StackPanel
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                    <TextBlock
+                        Margin="0,0,14,0"
+                        Style="{StaticResource StatusText}"
+                        Text="{Binding UserDisplay}" />
+                    <Ellipse
+                        Width="8"
+                        Height="8"
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Fill="{Binding RuntimeState, Converter={StaticResource StateToBrush}}" />
+                    <TextBlock
+                        Margin="0,0,14,0"
+                        Style="{StaticResource StatusText}"
+                        Text="{Binding DeviceStatus}" />
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        Style="{StaticResource StatusText}"
+                        Text="{Binding CurrentTime}" />
+                    <Button Command="{Binding MinimizeCommand}" Content="—" Style="{StaticResource ChromeButton}" />
+                    <Button Command="{Binding MaximizeCommand}" Content="□" Style="{StaticResource ChromeButton}" />
+                    <Button
+                        Command="{Binding CloseCommand}"
+                        Content="✕"
+                        Foreground="{StaticResource DangerBrush}"
+                        Style="{StaticResource ChromeButton}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 行2 中间区 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    x:Name="NavColumn"
+                    Width="200"
+                    MinWidth="48" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧导航栏 -->
+            <Border
+                Grid.Column="0"
+                Background="{StaticResource PanelBrush}"
+                BorderBrush="{StaticResource BorderBrushToken}"
+                BorderThickness="0,0,1,0">
+                <DockPanel>
+                    <Button
+                        DockPanel.Dock="Bottom"
+                        Height="28"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding ToggleNavigationCommand}"
+                        Content="{Binding NavToggleText}"
+                        Cursor="Hand"
+                        Foreground="{StaticResource TextSecondaryBrush}" />
+                    <ItemsControl ItemsSource="{Binding NavigationItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ToggleButton
+                                    Command="{Binding SelectCommand}"
+                                    CommandParameter="{Binding}"
+                                    IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                    Style="{StaticResource NavItemToggle}"
+                                    ToolTip="{Binding Title}">
+                                    <StackPanel
+                                        Margin="12,0,8,0"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            FontSize="16"
+                                            Text="{Binding Glyph}" />
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="{StaticResource BodyFontSize}"
+                                            Text="{Binding Title}"
+                                            Visibility="{Binding DataContext.IsNavCollapsed, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}" />
+                                    </StackPanel>
+                                </ToggleButton>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </Border>
+
+            <GridSplitter
+                Grid.Column="1"
+                Width="4"
+                HorizontalAlignment="Stretch"
+                Background="{StaticResource BackgroundBrush}"
+                ResizeBehavior="PreviousAndNext" />
+
+            <!-- 右侧内容区 -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition
+                        x:Name="LogRow"
+                        Height="140"
+                        MinHeight="28" />
+                </Grid.RowDefinitions>
+
+                <!-- 操作按钮栏 -->
+                <Border
+                    Grid.Row="0"
+                    Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderBrushToken}"
+                    BorderThickness="0,0,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="10,0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <ItemsControl ItemsSource="{Binding ActionItems}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding ExecuteCommand}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ActionButton}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Style}" Value="Primary">
+                                                            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Style}" Value="Danger">
+                                                            <Setter Property="Background" Value="{StaticResource DangerBrush}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock
+                                                    Margin="0,0,6,0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="Segoe MDL2 Assets"
+                                                    FontSize="13"
+                                                    Text="{Binding Glyph}"
+                                                    Visibility="{Binding HasIcon, Converter={StaticResource BoolToVisibility}}" />
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Text}" />
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="0,0,12,0"
+                            Style="{StaticResource SectionHeaderText}"
+                            Text="{Binding BreadcrumbText}" />
+                    </Grid>
+                </Border>
+
+                <!-- 导航页内容 -->
+                <ContentControl
+                    Grid.Row="1"
+                    prism:RegionManager.RegionName="ContentRegion" />
+
+                <GridSplitter
+                    Grid.Row="2"
+                    Height="4"
+                    HorizontalAlignment="Stretch"
+                    Background="{StaticResource BackgroundBrush}"
+                    ResizeBehavior="PreviousAndNext" />
+
+                <!-- 日志栏 -->
+                <Border
+                    Grid.Row="3"
+                    Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderBrushToken}"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="10,0,8,0"
+                                Style="{StaticResource FieldLabelText}"
+                                Text="级别" />
+                            <ComboBox
+                                Grid.Column="1"
+                                Width="110"
+                                Height="22"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding LogLevels}"
+                                SelectedItem="{Binding MinimumLevel}" />
+                            <TextBox
+                                Grid.Column="2"
+                                Height="22"
+                                Margin="10,3,10,3"
+                                VerticalContentAlignment="Center"
+                                Text="{Binding LogKeyword, UpdateSourceTrigger=PropertyChanged}" />
+                            <StackPanel
+                                Grid.Column="3"
+                                Margin="0,0,10,0"
+                                Orientation="Horizontal">
+                                <CheckBox
+                                    Margin="0,0,12,0"
+                                    VerticalAlignment="Center"
+                                    Content="自动滚动"
+                                    IsChecked="{Binding AutoScroll}" />
+                                <Button
+                                    Margin="0,0,8,0"
+                                    Command="{Binding ClearLogCommand}"
+                                    Content="清空"
+                                    Style="{StaticResource ActionButton}" />
+                                <Button
+                                    Command="{Binding ToggleLogCollapsedCommand}"
+                                    Content="{Binding LogToggleText}"
+                                    Style="{StaticResource ActionButton}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ListBox
+                            x:Name="LogList"
+                            Grid.Row="1"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource MonoFontFamily}"
+                            FontSize="{StaticResource SmallFontSize}"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            ItemsSource="{Binding LogEntries}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="4" />
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="140" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Foreground="{StaticResource TextSecondaryBrush}"
+                                            Text="{Binding Time}" />
+                                        <Rectangle
+                                            Grid.Column="1"
+                                            Width="3"
+                                            Margin="0,1"
+                                            Fill="{Binding Level, Converter={StaticResource LogLevelToBrush}}" />
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="6,0,0,0"
+                                            Foreground="{Binding Level, Converter={StaticResource LogLevelToBrush}}"
+                                            Text="{Binding LevelText}" />
+                                        <TextBlock
+                                            Grid.Column="3"
+                                            Foreground="{StaticResource TextSecondaryBrush}"
+                                            Text="{Binding Source}"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <TextBlock
+                                            Grid.Column="4"
+                                            Text="{Binding Message}"
+                                            TextTrimming="CharacterEllipsis"
+                                            ToolTip="{Binding Message}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- 行3 底部状态栏 -->
+        <Border
+            Grid.Row="2"
+            Background="{StaticResource ChromeBrush}"
+            BorderBrush="{StaticResource BorderBrushToken}"
+            BorderThickness="0,1,0,0">
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    Style="{StaticResource StatusText}"
+                    Text="{Binding ProjectName}" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="0,0,16,0"
+                    Orientation="Horizontal">
+                    <Ellipse
+                        Width="8"
+                        Height="8"
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Fill="{Binding RuntimeState, Converter={StaticResource StateToBrush}}" />
+                    <TextBlock Style="{StaticResource StatusText}" Text="{Binding RuntimeStateText}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Column="2"
+                    Style="{StaticResource StatusText}"
+                    Text="{Binding CycleText, StringFormat=节拍 {0}}" />
+
+                <TextBlock
+                    Grid.Column="3"
+                    Style="{StaticResource StatusText}"
+                    Text="{Binding YieldText, StringFormat=良率 {0}}" />
+
+                <TextBlock
+                    Grid.Column="5"
+                    Style="{StaticResource StatusText}"
+                    Text="{Binding AlarmText}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

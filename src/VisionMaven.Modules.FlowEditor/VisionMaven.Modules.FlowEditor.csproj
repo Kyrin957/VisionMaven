@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.Modules.FlowEditor</RootNamespace>
+    <AssemblyName>VisionMaven.Modules.FlowEditor</AssemblyName>
+    <Description>视觉流程：结构化节点编排、节点参数、触发源设置与单帧试运行。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" />
+    <PackageReference Include="HandyControl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Shared\VisionMaven.Modules.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

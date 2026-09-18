@@ -1,0 +1,130 @@
+<UserControl
+    x:Class="VisionMaven.Modules.Parameter.Views.ParameterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{StaticResource BackgroundBrush}"
+    Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="380" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="180" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,8"
+                Orientation="Horizontal">
+                <TextBlock Style="{StaticResource FieldLabelText}" Text="工位" />
+                <ComboBox
+                    Width="180"
+                    Height="24"
+                    ItemsSource="{Binding Stations}"
+                    SelectedItem="{Binding SelectedStation}"
+                    DisplayMemberPath="Name" />
+                <TextBlock
+                    Margin="16,0,0,0"
+                    Style="{StaticResource FieldLabelText}"
+                    Text="{Binding SourceText}" />
+            </StackPanel>
+
+            <DataGrid
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                Background="Transparent"
+                BorderThickness="0"
+                CanUserAddRows="False"
+                Foreground="{StaticResource TextPrimaryBrush}"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="Column"
+                ItemsSource="{Binding Rows}"
+                RowHeight="24">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="200"
+                        Binding="{Binding Key}"
+                        Header="参数" />
+                    <DataGridTextColumn
+                        Width="90"
+                        Binding="{Binding Scope}"
+                        Header="范围"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                        Header="取值" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Border Grid.Row="3" Style="{StaticResource PanelBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource PanelTitleText}" Text="逐节点耗时" />
+                    <DataGrid
+                        Grid.Row="1"
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        CanUserAddRows="False"
+                        Foreground="{StaticResource TextPrimaryBrush}"
+                        GridLinesVisibility="Horizontal"
+                        HeadersVisibility="Column"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Timings}"
+                        RowHeight="22">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="70"
+                                Binding="{Binding NodeId}"
+                                Header="节点" />
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding TypeKey}"
+                                Header="类型" />
+                            <DataGridTextColumn
+                                Width="80"
+                                Binding="{Binding Status}"
+                                Header="状态" />
+                            <DataGridTextColumn
+                                Width="90"
+                                Binding="{Binding ElapsedMs, StringFormat=F1}"
+                                Header="耗时(ms)" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding ErrorMessage}"
+                                Header="错误" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Grid.Column="2" Style="{StaticResource PanelBorder}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Image Source="{Binding PreviewImage}" Stretch="Uniform" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,8,0,0"
+                    Style="{StaticResource ValueText}"
+                    Text="{Binding ResultText}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

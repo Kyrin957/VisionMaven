@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.Modules.Project</RootNamespace>
+    <AssemblyName>VisionMaven.Modules.Project</AssemblyName>
+    <Description>项目管理：无导航页，仅提供顶部「项目 / 视图 / 工具 / 帮助」菜单与对话框。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" />
+    <PackageReference Include="HandyControl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Shared\VisionMaven.Modules.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

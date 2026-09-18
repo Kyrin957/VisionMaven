@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>VisionMaven.App</RootNamespace>
+    <AssemblyName>VisionMaven</AssemblyName>
+    <Description>生产线机器视觉与深度学习模型部署框架。</Description>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.DryIoc" />
+    <PackageReference Include="HandyControl" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Shared\VisionMaven.Modules.Shared.csproj" />
+    <ProjectReference Include="..\VisionMaven.Infrastructure\VisionMaven.Infrastructure.csproj" />
+    <ProjectReference Include="..\VisionMaven.Vision\VisionMaven.Vision.csproj" />
+    <ProjectReference Include="..\VisionMaven.Flow\VisionMaven.Flow.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Hikvision\VisionMaven.Devices.Hikvision.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.GenTL\VisionMaven.Devices.GenTL.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Light.Serial\VisionMaven.Devices.Light.Serial.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Light.Tcp\VisionMaven.Devices.Light.Tcp.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Mock\VisionMaven.Devices.Mock.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Modbus\VisionMaven.Devices.Modbus.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.S7\VisionMaven.Devices.S7.csproj" />
+    <ProjectReference Include="..\VisionMaven.Devices.Mes\VisionMaven.Devices.Mes.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Home\VisionMaven.Modules.Home.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.FlowEditor\VisionMaven.Modules.FlowEditor.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Algorithm\VisionMaven.Modules.Algorithm.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Model\VisionMaven.Modules.Model.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Parameter\VisionMaven.Modules.Parameter.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Device\VisionMaven.Modules.Device.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Communication\VisionMaven.Modules.Communication.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Security\VisionMaven.Modules.Security.csproj" />
+    <ProjectReference Include="..\VisionMaven.Modules.Project\VisionMaven.Modules.Project.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

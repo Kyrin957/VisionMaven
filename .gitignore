@@ -1,86 +1,27 @@
-## 构建产物
+## Build outputs（由 Directory.Build.props 统一重定向到仓库根，与 src 同级）
+/bin/
+/obj/
+publish/
+*.user
+*.suo
+.vs/
+
+## 兜底：任何层级的 bin / obj（含历史遗留或第三方生成的目录）
 [Bb]in/
 [Oo]bj/
-[Oo]ut/
-[Pp]ublish/
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Ww][Ii][Nn]32/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-build/
-bld/
-artifacts/
 
-## Visual Studio / Rider / VS Code
-.vs/
-.vscode/
+## Runtime data
+projects/
+data/
+logs/
+plugins/
+models/
+
+## IDE
 .idea/
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-*.userprefs
-_ReSharper*/
-*.[Rr]e[Ss]harper
 *.DotSettings.user
-*.VC.VC.opendb
-*.VC.db
+.vscode/
 
 ## NuGet
 *.nupkg
-*.snupkg
-**/[Pp]ackages/*
-!**/[Pp]ackages/build/
-nuget.config.bak
-project.lock.json
-project.fragment.lock.json
-artifacts/
-
-## 测试与覆盖率
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-*.VisualState.xml
-TestResult.xml
-coverage*.json
-coverage*.xml
-coverage*.info
-*.coverage
-*.coveragexml
-
-## 发布与运行数据（不得入库）
-data/
-logs/
-projects/
-plugins/
-!plugins/.gitkeep
-
-## 第三方厂商 SDK 二进制（体积大且需授权，不入库）
-MvCameraControl*.dll
-MvProducer*.cti
-*.cti
-*.dll.config
-
-## 工程导出的方案包
-*.vmproj
-
-## 系统与编辑器杂项
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-*.lnk
-*.tmp
-*.log
-*.bak
-*.swp
-*~
-
-## 敏感配置
-appsettings.Development.json
-appsettings.Local.json
-secrets.json
-*.pfx
-*.snk
+packages/

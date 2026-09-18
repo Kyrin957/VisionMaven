@@ -1,0 +1,201 @@
+<UserControl
+    x:Class="VisionMaven.Modules.Model.Views.ModelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{StaticResource BackgroundBrush}"
+    Foreground="{StaticResource TextPrimaryBrush}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid
+            AutoGenerateColumns="False"
+            Background="Transparent"
+            BorderThickness="0"
+            CanUserAddRows="False"
+            Foreground="{StaticResource TextPrimaryBrush}"
+            GridLinesVisibility="Horizontal"
+            HeadersVisibility="Column"
+            ItemsSource="{Binding Models}"
+            RowHeight="24"
+            SelectedItem="{Binding SelectedModel}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding ModelId}"
+                    Header="标识" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Name}"
+                    Header="名称" />
+                <DataGridTextColumn
+                    Width="110"
+                    Binding="{Binding Task}"
+                    Header="任务" />
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding Version}"
+                    Header="版本" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Path}"
+                    Header="模型文件" />
+                <DataGridTextColumn
+                    Width="120"
+                    Binding="{Binding Input.Width}"
+                    Header="输入宽" />
+                <DataGridTextColumn
+                    Width="120"
+                    Binding="{Binding Input.Height}"
+                    Header="输入高" />
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding Confidence, StringFormat=F2}"
+                    Header="置信度" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Device}"
+                    Header="推理设备" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Precision}"
+                    Header="精度" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource PanelBorder}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource PanelTitleText}" Text="推理设置" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Style="{StaticResource FieldLabelText}" Text="任务" />
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="0,2"
+                            ItemsSource="{Binding Tasks}"
+                            SelectedItem="{Binding SelectedModel.Task}" />
+
+                        <TextBlock
+                            Grid.Column="2"
+                            Style="{StaticResource FieldLabelText}"
+                            Text="推理设备" />
+                        <ComboBox
+                            Grid.Column="3"
+                            Margin="0,2"
+                            ItemsSource="{Binding Devices}"
+                            SelectedItem="{Binding SelectedModel.Device}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Style="{StaticResource FieldLabelText}"
+                            Text="精度" />
+                        <ComboBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,2"
+                            ItemsSource="{Binding Precisions}"
+                            SelectedItem="{Binding SelectedModel.Precision}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Style="{StaticResource FieldLabelText}"
+                            Text="标签文件" />
+                        <Grid Grid.Row="1" Grid.Column="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Height="24"
+                                VerticalContentAlignment="Center"
+                                Text="{Binding SelectedModel.Labels}" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding BrowseLabelCommand}"
+                                Content="…"
+                                Style="{StaticResource ActionButton}" />
+                        </Grid>
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Style="{StaticResource FieldLabelText}"
+                            Text="输入宽高" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Height="24"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SelectedModel.Input.Width}" />
+
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Height="24"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SelectedModel.Input.Height}" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Style="{StaticResource FieldLabelText}"
+                            Text="置信度 / NMS" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Height="24"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SelectedModel.Confidence}" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Height="24"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding SelectedModel.Nms}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource PanelBorder}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource PanelTitleText}" Text="测试推理" />
+                    <Image
+                        Grid.Row="1"
+                        Source="{Binding PreviewImage}"
+                        Stretch="Uniform" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Style="{StaticResource ValueText}"
+                        Text="{Binding ResultText}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

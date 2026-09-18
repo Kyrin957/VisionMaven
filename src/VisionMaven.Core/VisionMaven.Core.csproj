@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Core</RootNamespace>
+    <AssemblyName>VisionMaven.Core</AssemblyName>
+    <Description>零依赖契约层：设备驱动、算子、推理、流程节点、领域模型与事件。</Description>
+  </PropertyGroup>
+
+</Project>

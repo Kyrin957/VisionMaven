@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Devices.S7</RootNamespace>
+    <AssemblyName>VisionMaven.Devices.S7</AssemblyName>
+    <Description>西门子 S7 驱动（S7-200Smart / 300 / 400 / 1200 / 1500）。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HslCommunication" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+  </ItemGroup>
+
+</Project>

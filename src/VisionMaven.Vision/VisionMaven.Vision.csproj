@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VisionMaven.Vision</RootNamespace>
+    <AssemblyName>VisionMaven.Vision</AssemblyName>
+    <Description>OpenCvSharp 算子库、标定与 ONNX Runtime 推理引擎。</Description>
+    <!-- 以 -p:VisionMavenGpu=true 构建可切换到 CUDA / TensorRT 执行提供程序。 -->
+    <VisionMavenGpu Condition="'$(VisionMavenGpu)' == ''">false</VisionMavenGpu>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(VisionMavenGpu)' == 'true'">
+    <DefineConstants>$(DefineConstants);VISIONMAVEN_GPU</DefineConstants>
+    <IsCudaBuild>true</IsCudaBuild>
+  </PropertyGroup>
+
+  <ItemGroup Label="CPU 基线构建">
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Condition="'$(IsCudaBuild)' != 'true'" />
+  </ItemGroup>
+
+  <ItemGroup Label="CUDA / TensorRT 构建">
+    <PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Condition="'$(IsCudaBuild)' == 'true'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" />
+    <PackageReference Include="OpenCvSharp4.Extensions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VisionMaven.Core\VisionMaven.Core.csproj" />
+  </ItemGroup>
+
+</Project>
